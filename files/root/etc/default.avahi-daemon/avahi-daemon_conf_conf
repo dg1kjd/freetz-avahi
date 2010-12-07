@@ -1,0 +1,39 @@
+#!/bin/sh
+
+CFGFILE="/tmp/flash/avahi-daemon/avahi-daemon_conf"
+
+if [ ! -f $CFGFILE ]
+then cat << EOF
+[server]
+host-name=Fritzbox
+#domain-name=box
+browse-domains=jens-david-consulting.com, jens-david-consulting.de
+use-ipv4=yes
+use-ipv6=no
+disallow-other-stacks=no
+allow-point-to-point=no
+
+[wide-area]
+enable-wide-area=yes
+
+[publish]
+disable-publishing=no
+disable-user-service-publishing=no
+publish-domain=yes
+#publish-dns-servers=192.168.50.1, 192.168.50.2
+#publish-resolv-conf-dns-servers=yes
+
+[reflector]
+#enable-reflector=no
+#reflect-ipv=no
+
+[rlimits]
+#rlimit-as=
+rlimit-core=0
+rlimit-data=1000000
+rlimit-nofile=60
+rlimit-stack=1000000
+rlimit-nproc=5
+EOF
+else cat $CFGFILE;
+fi

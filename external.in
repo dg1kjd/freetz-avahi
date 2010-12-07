@@ -1,0 +1,10 @@
+config EXTERNAL_FREETZ_PACKAGE_AVAHI_DAEMON
+	depends on EXTERNAL_ENABLED && FREETZ_PACKAGE_AVAHI_DAEMON
+	bool "avahi-daemon"
+	default n
+	help
+		externals these file(s):
+			/usr/bin/avahi-daemon
+			/usr/bin/avahi-dnsconfd
+			/usr/lib/freetz/libavahi-common.so.3.5.1
+			/usr/lib/freetz/libavahi-core.so.6.0.1

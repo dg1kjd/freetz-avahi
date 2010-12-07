@@ -1,0 +1,8 @@
+CAPTION='Avahi-daemon: Static service definitions file'
+DESCRIPTION='<a href="http://avahi.org/download/avahi.service.5.xml" target="_blank">Syntax see documentation of avahi_service</a><br>'
+
+CONFIG_FILE='/tmp/flash/avahi-daemon/avahi_service'
+CONFIG_SAVE='modsave flash; if pidof avahi-daemon > /dev/null; then echo ""; /mod/etc/init.d/rc.avahi-daemon restart; fi'
+CONFIG_TYPE='text'
+
+TEXT_ROWS=40

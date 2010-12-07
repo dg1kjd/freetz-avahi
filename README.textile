@@ -1,0 +1,74 @@
+h1. Avahi-daemon
+
+This project aims at getting the avahi daemon working in the Freetz environment. Personally, my intention for doing so is to have avahi-daemon announce my Netatalk shared volumes to Apple machines on the same network. In this configuration freetz-Netatalk provides the fileservices via TCP/IP and avahi-daemon is needed to announce its presence, which Netatalk cannot do itself.
+
+
+h2. Current status
+
+All necessary binaries compile, install and run correctly (in my tests at least). Configuration is made possible via a cgi-bin module. The three configuration files needed can be edited and saved to nvmem using the Freetz web config interface. Examples for the files are provided.
+External builds are untested.
+
+
+h2. People
+
+This package was compiled by me, Jens David (DG1KJD) <jens.david@jens-david-consulting.com>. It is based on previous work done by "sf3978", "olistudent" and "er13". Confer to this discussion thread for more information:
+
+http://www.ip-phone-forum.de/showthread.php?p=1524730
+
+
+h2. Installation
+
+First you need to fork the Git repository:
+"http://github.com/dg1kjd/freetz-avahi":http://github.com/dg1kjd/freetz-avahi
+
+After that you should setup your build environment and build your new firmware. The following commands should help with that. Replace {USERNAME} with your user name.
+
+pre. 
+mkdir freetz
+cd freetz
+svn checkout http://svn.freetz.org/trunk
+git clone git@github.com:{USERNAME}/freetz-avahi.git avahi-daemon
+ln -s ../../avahi-daemon trunk/make/
+sed -i 's%autofs/Config.in%autofs/Config.in\nsource make/avahi-daemon/Config.in%' trunk/make/Config.in
+cd trunk
+make menuconfig
+<select packages here, including avahi-daemon>
+make
+
+
+h2. Pakets
+
+pre. 
+FREETZ_PACKAGE_AVAHI_DAEMON
+  Package selection -> Testing -> Avahi-daemon
+
+
+h2. Shell
+
+It is advised to start and stop avahi-daemon once using the web interface to create its configuration files and necessary symlinks. After that they can be modified here:
+
+* /mod/etc/avahi-daemon/avahi-daemon_conf
+* /mod/etc/avahi-daemon/avahi_hosts
+* /mod/etc/avahi-daemon/avahi_service
+
+Daemon starting and stopping:
+
+It is advised to use the rc.avahi-daemon script in /etc/init.d/ to start and stop the daemons, like the webinterface does. Otherwise you can run the avahi-daemon manually with something like
+
+pre.
+  avahi-daemon -D -f /mod/etc/avahi-daemon/avahi-daemon_conf
+
+By leaving out -D you can prevent forking into background for e.g. debugging the beast with strace or gdb.
+
+Stopping:
+
+pre.
+  killall -SIGTERM avahi-daemon
+
+
+h2. Links
+
+* "Forum":http://www.ip-phone-forum.de/showthread.php?p=1524730
+* "Netatalk":http://netatalk.sourceforge.net
+* "Github":http://help.github.com/forking
+* "Avahi Project":http://www.avahi.org

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+CFGFILE="/tmp/flash/avahi-daemon/avahi_hosts"
+
+if [ ! -f $CFGFILE ]
+then cat << EOF
+EOF
+else cat $CFGFILE;
+fi

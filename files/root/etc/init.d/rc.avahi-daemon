@@ -1,0 +1,77 @@
+#!/bin/sh
+
+DAEMON=avahi-daemon
+DAEMON_BIN=avahi-daemon
+DAEMON_LONG_NAME=Avahi-daemon
+DAEMON_CONFIG=/mod/etc/avahi-daemon/avahi-daemon_conf
+. /etc/init.d/modlibrc
+
+start() {
+	modlib_startdaemon $DAEMON_BIN \
+	  -f $DAEMON_CONFIG \
+	  -D
+}
+
+config() {
+	 mkdir -p /mod/etc/avahi-daemon
+	 /mod/etc/default.avahi-daemon/avahi-daemon_conf_conf > /mod/etc/avahi-daemon/avahi-daemon_conf
+	 /mod/etc/default.avahi-daemon/avahi_service_conf > /mod/etc/avahi-daemon/avahi_service
+	 /mod/etc/default.avahi-daemon/avahi_hosts_conf > /mod/etc/avahi-daemon/avahi_hosts
+	 ln -sf avahi-daemon_conf /mod/etc/avahi-daemon/avahi-daemon.conf
+	 ln -sf avahi_service /mod/etc/avahi-daemon/avahi.service
+	 ln -sf avahi_hosts /mod/etc/avahi-daemon/avahi.hosts
+	 mkdir -p /mod/etc/avahi-daemon/services
+	 ln -sf ../avahi_service /mod/etc/avahi-daemon/services/avahi.service
+	 ln -sf avahi-daemon /mod/etc/avahi
+}
+
+case $1 in
+	""|load)
+		mkdir -p "/tmp/flash/${DAEMON}"
+		mkdir -p "/var/run"
+
+		modreg cgi avahi-daemon "Avahi-daemon"
+		modreg daemon avahi-daemon
+		modreg file avahi-daemon avahi-daemon_conf 'Main config file' 1 "avahi-daemon_conf"
+		modreg file avahi-daemon avahi_service 'Static services' 1 "avahi_service"
+		modreg file avahi-daemon avahi_hosts 'Static hosts config file' 1 "avahi_hosts"
+
+		if [ ! -e /var/mod/etc/init.d/rc.$DAEMON_BIN ]; then
+			ln -s /etc/init.d/rc.$DAEMON_BIN /var/mod/etc/init.d/rc.$DAEMON_BIN
+		fi
+
+		modlib_start $AVAHI_DAEMON_ENABLED
+		;;
+	unload)
+		modunreg file avahi-daemon
+		modunreg daemon $DAEMON
+		modunreg cgi avahi-daemon
+		modlib_stop
+		;;
+	start)
+		config
+		start
+		;;
+	stop)
+                echo -n "Stopping ${DAEMON} ... "
+		killall ${DAEMON} >/dev/null 2>/dev/null
+		echo "done"
+		;;
+	restart)
+		config
+		modlib_check_running
+		modlib_restart
+		;;
+	status)
+		modlib_status
+		;;
+	config)
+		config
+		;;
+	*)
+		echo "Usage: $0 [load|unload|start|stop|restart|status|config]" 1>&2
+		exit 1
+		;;
+esac
+
+exit 0

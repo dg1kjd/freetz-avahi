@@ -1,0 +1,2 @@
+[ "$EXTERNAL_FREETZ_PACKAGE_AVAHI_DAEMON" == "y" ] && EXTERNAL_FILES+=" /usr/bin/avahi-daemon /usr/bin/avahi-dnsconfd /usr/lib/freetz/libavahi-common.so.3.5.1 \
+/usr/lib/freetz/libavahi-core.so.6.0.1"

@@ -1,0 +1,19 @@
+config FREETZ_PACKAGE_AVAHI_DAEMON
+	bool "avahi-daemon 0.6.25 (binary only)"
+	select FREETZ_LIB_libpcap
+	select FREETZ_LIB_libdaemon
+	select FREETZ_LIB_libexpat
+	select FREETZ_LIB_libintl
+	default n
+	help
+		Avahi is a system which facilitates service discovery on
+		a local network. This means that you can plug your laptop
+		or computer into a network and instantly be able to view other
+		people who you can chat with, find printers to print to or find
+		files being shared. This kind of technology is already found in
+		Apple MacOS X (branded Rendezvous, Bonjour  and sometimes Zeroconf)
+		and is very convenient. Avahi is mainly based on Lennart Poettering's
+		flexmdns mDNS implementation for Linux which has been discontinued
+		in favour of Avahi.
+		WWW: http://avahi.org/
+

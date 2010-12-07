@@ -1,0 +1,12 @@
+languages
+{ de en }
+default
+{ en }
+files
+{
+	etc/default.avahi-daemon/avahi-daemon_conf.def
+	etc/default.avahi-daemon/avahi_hosts.def
+	etc/default.avahi-daemon/avahi_service.def
+	etc/init.d/rc.avahi-daemon
+	usr/lib/cgi-bin/avahi-daemon.cgi
+}
