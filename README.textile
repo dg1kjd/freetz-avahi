@@ -55,14 +55,14 @@ Daemon starting and stopping:
 
 It is advised to use the rc.avahi-daemon script in /etc/init.d/ to start and stop the daemons, like the webinterface does. Otherwise you can run the avahi-daemon manually with something like
 
-pre.
+pre. 
   avahi-daemon -D -f /mod/etc/avahi-daemon/avahi-daemon_conf
 
 By leaving out -D you can prevent forking into background for e.g. debugging the beast with strace or gdb.
 
 Stopping:
 
-pre.
+pre. 
   killall -SIGTERM avahi-daemon
 
 
